@@ -16,10 +16,11 @@ class MyApp extends StatelessWidget {
         '/home_page': (context) => const HomePage(),
         '/detail_page': (context) => DetailPage(),
       },
+      // themeMode: ThemeMode.dark,
       theme: ThemeData(
+        brightness: Brightness.dark,
         fontFamily: 'Pretendard',
       ),
-      darkTheme: ThemeData.dark(),
       title: 'Movie-view',
       home: const HomePage(),
     );
