@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_view_app/detail_page.dart';
+import 'package:flutter_movie_view_app/home_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,6 +11,14 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp();
+    return MaterialApp(
+      routes: {
+        '/home_page': (context) => const HomePage(),
+        '/detail_page': (context) => DetailPage(),
+      },
+      theme: ThemeData.dark(),
+      title: 'Movie-view',
+      home: const HomePage(),
+    );
   }
 }
