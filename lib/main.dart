@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_movie_view_app/detail_page.dart';
-import 'package:flutter_movie_view_app/home_page.dart';
+import 'package:flutter_movie_view_app/presentation/pages/detail_page.dart';
+import 'package:flutter_movie_view_app/presentation/pages/home_page.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
