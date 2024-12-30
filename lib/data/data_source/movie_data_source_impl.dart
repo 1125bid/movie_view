@@ -27,7 +27,7 @@ class MovieDataSourceImpl implements MovieDataSource {
       ),
     );
     if (response.statusCode == 200) {
-      return response.data['results'];
+      return MovieDetailDto.fromJson(response.data);
     }
     return null;
   }
