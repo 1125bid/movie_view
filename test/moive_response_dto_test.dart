@@ -1,9 +1,14 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_movie_view_app/data/dto/movie_response_dto.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {
+  final Dio _client = Dio(BaseOptions(
+    validateStatus: (status) => true,
+  ));
   test(
     'MovieResponseDto :fromJson test',
     () {
@@ -30,7 +35,21 @@ void main() {
     }
 """;
       final map = jsonDecode(sampleJsonString);
-      // final movieDto= MoiveResponseDto.fromJson
+      // final movieDto= MovieResponseDto.fromJson
     },
   );
+  test('인기순 영화 데이터 받아오기', () async {
+    final response = await _client
+        .get('https://api.themoviedb.org/3/movie', queryParameters: {
+      'include_adult': false,
+      'include_video': false,
+      'language': 'ko-KR',
+      'page': 1,
+      'sort_by': 'popularity.desc',
+      'Authorization': dotenv.env['TMDV_ACCESS_TOKEN'],
+      'Accept': 'application/json',
+    });
+    // expect(response.data[], matcher)
+    print(response.statusCode);
+  });
 }
