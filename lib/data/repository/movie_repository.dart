@@ -11,31 +11,68 @@ class MovieRepository implements MovieDataSource {
 
   @override
   Future<MovieDetailDto?> fetchMovieDetail(int id) async {
-    // TODO: implement fetchPopularMovies
-    throw UnimplementedError();
+    final response = await _client.get(
+      'https://api.themoviedb.org/3/discover/movie/$int',
+      queryParameters: {
+        'language': 'ko-KR',
+        'page': 1,
+        'sort_by': 'popularity.desc'
+      },
+      options: Options(
+        headers: {
+          'Authorization': dotenv.env['TMDV_ACCESS_TOKEN'],
+          'Accept': 'application/json',
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      return response.data['results'];
+    }
+    return null;
   }
 
-  //TODO dot.env확인
   @override
   Future<MovieResponseDto?> fetchNowPlayingMovies() async {
-    // TODO: implement fetchNowPlayingMovies
-    throw UnimplementedError();
+    final response = await _client.get(
+      'https://api.themoviedb.org/3/discover/movie/now_playing',
+      queryParameters: {
+        'language': 'ko-KR',
+        'page': 1,
+        'sort_by': 'popularity.desc'
+      },
+      options: Options(
+        headers: {
+          'Authorization': dotenv.env['TMDV_ACCESS_TOKEN'],
+          'Accept': 'application/json',
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      return response.data['results'];
+    }
+    return null;
   }
 
   @override
   Future<MovieResponseDto?> fetchPopularMovies() async {
-    final response = await _client
-        .get('https://api.themoviedb.org/3/movie', queryParameters: {
-      'include_adult': false,
-      'include_video': false,
-      'language': 'ko-KR',
-      'page': 1,
-      'sort_by': 'popularity.desc',
-      'Authorization': dotenv.env['TMDV_ACCESS_TOKEN'],
-      'Accept': 'application/json',
-    });
-    print(response.statusCode);
-
+    final response = await _client.get(
+      'https://api.themoviedb.org/3/movie',
+      queryParameters: {
+        'language': 'ko-KR',
+        'page': 1,
+        'sort_by': 'popularity.desc',
+      },
+      options: Options(
+        headers: {
+          'Authorization': dotenv.env['TMDV_ACCESS_TOKEN'],
+          'Accept': 'application/json',
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      return response.data['results'];
+    }
+    return null;
 // results>>(반복문)poster_path
 // include_adult: false
 // include_video: false
@@ -46,13 +83,45 @@ class MovieRepository implements MovieDataSource {
 
   @override
   Future<MovieResponseDto?> fetchTopRatedMovies() async {
-    // TODO: implement fetchTopRatedMovies
-    throw UnimplementedError();
+    final response = await _client.get(
+      'https://api.themoviedb.org/3/discover/movie/top_rated',
+      queryParameters: {
+        'language': 'ko-KR',
+        'page': 1,
+        'sort_by': 'popularity.desc'
+      },
+      options: Options(
+        headers: {
+          'Authorization': dotenv.env['TMDV_ACCESS_TOKEN'],
+          'Accept': 'application/json',
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      return response.data['results'];
+    }
+    return null;
   }
 
   @override
   Future<MovieResponseDto?> fetchUpcomingMovies() async {
-    // TODO: implement fetchUpcomingMovies
-    throw UnimplementedError();
+    final response = await _client.get(
+      'https://api.themoviedb.org/3/discover/movie/upcoming',
+      queryParameters: {
+        'language': 'ko-KR',
+        'page': 1,
+        'sort_by': 'popularity.desc'
+      },
+      options: Options(
+        headers: {
+          'Authorization': dotenv.env['TMDV_ACCESS_TOKEN'],
+          'Accept': 'application/json',
+        },
+      ),
+    );
+    if (response.statusCode == 200) {
+      return response.data['results'];
+    }
+    return null;
   }
 }
