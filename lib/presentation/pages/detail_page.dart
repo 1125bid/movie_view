@@ -17,6 +17,17 @@ class _DetailPageState extends ConsumerState<DetailPage> {
         ref.watch(detailPageViewModelProvider(widget.movie.id));
     final detailPageViewModel =
         ref.read(detailPageViewModelProvider(widget.movie.id).notifier);
+
+    ///로딩중
+    if (detailPageState.movieDetail == null) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
     final labels = ['평점', '평점투표수', '인기점수', '예산', '수익'];
 
     ///흥행정보 이름
