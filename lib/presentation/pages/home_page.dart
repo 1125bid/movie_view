@@ -139,7 +139,11 @@ class StackedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/detail_page');
+        Navigator.pushNamed(
+          context,
+          '/detail_page',
+          arguments: movie,
+        );
       },
       child: Stack(
         children: [
@@ -182,7 +186,11 @@ class Item extends StatelessWidget {
       padding: const EdgeInsets.only(right: 10),
       child: GestureDetector(
         onTap: () {
-          Navigator.pushNamed(context, '/detail_page');
+          Navigator.pushNamed(
+            context,
+            '/detail_page',
+            arguments: movie,
+          );
         },
         child: AspectRatio(
           aspectRatio: 1 / 1.5,

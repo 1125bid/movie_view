@@ -42,7 +42,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
       appBar: AppBar(),
       body: ListView(
         children: [
-          Hero(tag: 'image', child: MainPicture()),
+          Hero(tag: 'image', child: MainPicture(movie: widget.movie)),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -135,16 +135,14 @@ class _DetailPageState extends ConsumerState<DetailPage> {
 
 /// 최상단 영화 포스터
 class MainPicture extends StatelessWidget {
-  const MainPicture({
-    super.key,
-  });
-
+  const MainPicture({super.key, required this.movie});
+  final Movie movie;
   @override
   Widget build(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(20),
       child: Image.network(
-        'https://picsum.photos/seed/picsum/200/300',
+        'https://image.tmdb.org/t/p/w500${movie.posterPath}',
         fit: BoxFit.cover,
       ),
     );
