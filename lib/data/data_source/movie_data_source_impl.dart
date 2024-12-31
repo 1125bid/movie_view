@@ -13,7 +13,7 @@ class MovieDataSourceImpl implements MovieDataSource {
   @override
   Future<MovieDetailDto?> fetchMovieDetail(int id) async {
     final response = await _client.get(
-      'https://api.themoviedb.org/3/discover/movie/$int',
+      'https://api.themoviedb.org/3/movie/$id',
       queryParameters: {
         'language': 'ko-KR',
         'page': 1,
@@ -35,7 +35,7 @@ class MovieDataSourceImpl implements MovieDataSource {
   @override
   Future<List<MovieResponseDto>?> fetchNowPlayingMovies() async {
     final response = await _client.get(
-      'https://api.themoviedb.org/3/discover/movie/now_playing',
+      'https://api.themoviedb.org/3/movie/now_playing',
       queryParameters: {
         'language': 'ko-KR',
         'page': 1,
@@ -48,6 +48,7 @@ class MovieDataSourceImpl implements MovieDataSource {
         },
       ),
     );
+    print(response.statusCode);
     if (response.statusCode == 200) {
       return List.from(response.data['results']).map((e) {
         return MovieResponseDto.fromJson(e);
@@ -59,7 +60,7 @@ class MovieDataSourceImpl implements MovieDataSource {
   @override
   Future<List<MovieResponseDto>?> fetchPopularMovies() async {
     final response = await _client.get(
-      'https://api.themoviedb.org/3/movie',
+      'https://api.themoviedb.org/3/movie/popular',
       queryParameters: {
         'language': 'ko-KR',
         'page': 1,
@@ -77,7 +78,9 @@ class MovieDataSourceImpl implements MovieDataSource {
         return MovieResponseDto.fromJson(e);
       }).toList();
     }
+    print(response.statusCode);
     return null;
+
 // results>>(반복문)poster_path
 // include_adult: false
 // include_video: false
@@ -89,7 +92,7 @@ class MovieDataSourceImpl implements MovieDataSource {
   @override
   Future<List<MovieResponseDto>?> fetchTopRatedMovies() async {
     final response = await _client.get(
-      'https://api.themoviedb.org/3/discover/movie/top_rated',
+      'https://api.themoviedb.org/3/movie/top_rated',
       queryParameters: {
         'language': 'ko-KR',
         'page': 1,
@@ -113,7 +116,7 @@ class MovieDataSourceImpl implements MovieDataSource {
   @override
   Future<List<MovieResponseDto>?> fetchUpcomingMovies() async {
     final response = await _client.get(
-      'https://api.themoviedb.org/3/discover/movie/upcoming',
+      'https://api.themoviedb.org/3/movie/upcoming',
       queryParameters: {
         'language': 'ko-KR',
         'page': 1,
