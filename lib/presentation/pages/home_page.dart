@@ -1,10 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_movie_view_app/domain/entity/movie.dart';
+import 'package:flutter_movie_view_app/presentation/pages/home_page_view_model.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
+  ConsumerState<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends ConsumerState<HomePage> {
+  @override
   Widget build(BuildContext context) {
+    final homePageState = ref.watch(homePageViewModelProvider);
+    final homePageViewModel = ref.read(homePageViewModelProvider.notifier);
+    print(
+        'homePageState.popularMovies[0].posterPath${homePageState.popularMovies[0].posterPath}');
+
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
@@ -24,10 +37,13 @@ class HomePage extends StatelessWidget {
                   child: SizedBox(
                     height: 500,
                     width: double.infinity,
-                    child: Image.network(
-                      'https://picsum.photos/seed/picsum/200/300',
-                      fit: BoxFit.cover,
-                    ),
+                    child: homePageState.popularMovies.isNotEmpty
+                        ? Image.network(
+                            'https://image.tmdb.org/t/p/w500${homePageState.popularMovies[0].posterPath}',
+                            fit: BoxFit.cover,
+                          )
+                        : Image.network(
+                            'https://picsum.photos/seed/picsum/200/300'),
                   ),
                 ),
               ),
@@ -38,9 +54,11 @@ class HomePage extends StatelessWidget {
             SizedBox(
               height: 250,
               child: ListView.separated(
-                itemCount: 3,
+                itemCount: homePageState.nowPlayingMovies.length,
                 itemBuilder: (context, index) {
-                  return Item();
+                  return Item(
+                    movie: homePageState.nowPlayingMovies[index],
+                  );
                 },
                 scrollDirection: Axis.horizontal,
                 separatorBuilder: (context, index) => const SizedBox(width: 3),
@@ -52,10 +70,12 @@ class HomePage extends StatelessWidget {
             SizedBox(
               height: 250,
               child: ListView.separated(
-                itemCount: 3,
+                itemCount: homePageState.popularMovies.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return StackedItem(num: '${index + 1}');
+                  return StackedItem(
+                      num: '${index + 1}',
+                      movie: homePageState.popularMovies[index]);
                 },
                 separatorBuilder: (context, index) => const SizedBox(),
               ),
@@ -66,10 +86,12 @@ class HomePage extends StatelessWidget {
             SizedBox(
               height: 250,
               child: ListView.separated(
-                itemCount: 3,
+                itemCount: homePageState.topRatedMovies.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return Item();
+                  return Item(
+                    movie: homePageState.topRatedMovies[index],
+                  );
                 },
                 separatorBuilder: (context, index) => const SizedBox(width: 3),
               ),
@@ -80,10 +102,12 @@ class HomePage extends StatelessWidget {
             SizedBox(
               height: 250,
               child: ListView.separated(
-                itemCount: 3,
+                itemCount: homePageState.upcomingMovies.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return Item();
+                  return Item(
+                    movie: homePageState.upcomingMovies[index],
+                  );
                 },
                 separatorBuilder: (context, index) => const SizedBox(width: 3),
               ),
@@ -97,8 +121,9 @@ class HomePage extends StatelessWidget {
 
 ///인기순 아이템
 class StackedItem extends StatelessWidget {
-  StackedItem({super.key, required this.num});
+  StackedItem({super.key, required this.num, required this.movie});
   String num;
+  Movie movie;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -114,7 +139,7 @@ class StackedItem extends StatelessWidget {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20),
                 child: Image.network(
-                  'https://picsum.photos/seed/picsum/200/300',
+                  'https://image.tmdb.org/t/p/w500${movie.posterPath}',
                   fit: BoxFit.cover,
                 ),
               ),
@@ -135,10 +160,11 @@ class StackedItem extends StatelessWidget {
 
 ///현재상영중, 평점 높은순, 개봉예정
 class Item extends StatelessWidget {
-  const Item({
+  Item({
     super.key,
+    required this.movie,
   });
-
+  Movie movie;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -152,7 +178,7 @@ class Item extends StatelessWidget {
           child: ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Image.network(
-              'https://picsum.photos/seed/picsum/200/300',
+              'https://image.tmdb.org/t/p/w500${movie.posterPath}',
               fit: BoxFit.cover,
             ),
           ),
