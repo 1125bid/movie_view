@@ -48,7 +48,6 @@ class MovieDataSourceImpl implements MovieDataSource {
         },
       ),
     );
-    print(response.statusCode);
     if (response.statusCode == 200) {
       return List.from(response.data['results']).map((e) {
         return MovieResponseDto.fromJson(e);
@@ -78,7 +77,6 @@ class MovieDataSourceImpl implements MovieDataSource {
         return MovieResponseDto.fromJson(e);
       }).toList();
     }
-    print(response.statusCode);
     return null;
 
 // results>>(반복문)poster_path
