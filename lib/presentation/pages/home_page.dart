@@ -39,10 +39,10 @@ class _HomePageState extends ConsumerState<HomePage> {
             GestureDetector(
               onTap: () {
                 Navigator.pushNamed(context, '/detail_page',
-                    arguments: homePageState.popularMovies[0]);
+                    arguments: [homePageState.popularMovies[0], 'MostPopular']);
               },
               child: Hero(
-                tag: 'image',
+                tag: 'MostPopular',
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(20),
                   child: SizedBox(
@@ -68,6 +68,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 itemCount: homePageState.nowPlayingMovies.length,
                 itemBuilder: (context, index) {
                   return Item(
+                    heroPreFix: 'NowPlayingMovies',
                     movie: homePageState.nowPlayingMovies[index],
                   );
                 },
@@ -101,6 +102,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return Item(
+                    heroPreFix: "TopRatedMovies",
                     movie: homePageState.topRatedMovies[index],
                   );
                 },
@@ -117,6 +119,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return Item(
+                    heroPreFix: "UpcomingMovies",
                     movie: homePageState.upcomingMovies[index],
                   );
                 },
@@ -142,32 +145,35 @@ class StackedItem extends StatelessWidget {
         Navigator.pushNamed(
           context,
           '/detail_page',
-          arguments: movie,
+          arguments: [movie, 'popular_${movie.id}'],
         );
       },
-      child: Stack(
-        children: [
-          Container(
-            margin: const EdgeInsets.only(left: 25),
-            child: AspectRatio(
-              aspectRatio: 1 / 1.5,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Image.network(
-                  'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-                  fit: BoxFit.cover,
+      child: Hero(
+        tag: 'popular_${movie.id}',
+        child: Stack(
+          children: [
+            Container(
+              margin: const EdgeInsets.only(left: 25),
+              child: AspectRatio(
+                aspectRatio: 1 / 1.5,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Text(
-              num,
-              style: TextStyle(fontSize: 100, color: Colors.grey[300]),
+            Align(
+              alignment: Alignment.bottomLeft,
+              child: Text(
+                num,
+                style: TextStyle(fontSize: 100, color: Colors.grey[300]),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -175,11 +181,9 @@ class StackedItem extends StatelessWidget {
 
 ///현재상영중, 평점 높은순, 개봉예정
 class Item extends StatelessWidget {
-  Item({
-    super.key,
-    required this.movie,
-  });
+  Item({super.key, required this.movie, required this.heroPreFix});
   Movie movie;
+  String heroPreFix;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -189,16 +193,19 @@ class Item extends StatelessWidget {
           Navigator.pushNamed(
             context,
             '/detail_page',
-            arguments: movie,
+            arguments: [movie, '${heroPreFix}_${movie.id}'],
           );
         },
-        child: AspectRatio(
-          aspectRatio: 1 / 1.5,
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.network(
-              'https://image.tmdb.org/t/p/w500${movie.posterPath}',
-              fit: BoxFit.cover,
+        child: Hero(
+          tag: '${heroPreFix}_${movie.id}',
+          child: AspectRatio(
+            aspectRatio: 1 / 1.5,
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: Image.network(
+                'https://image.tmdb.org/t/p/w500${movie.posterPath}',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ),

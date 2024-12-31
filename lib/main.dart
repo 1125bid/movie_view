@@ -20,9 +20,13 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         '/home_page': (context) => const HomePage(),
-        '/detail_page': (context) => DetailPage(
-              movie: ModalRoute.of(context)!.settings.arguments as Movie,
-            ),
+        '/detail_page': (context) {
+          final arg = ModalRoute.of(context)!.settings.arguments as List;
+          return DetailPage(
+            movie: arg[0],
+            heroTag: arg[1],
+          );
+        },
       },
       // themeMode: ThemeMode.dark,
       theme: ThemeData(

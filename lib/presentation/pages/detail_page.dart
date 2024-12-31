@@ -4,8 +4,13 @@ import 'package:flutter_movie_view_app/presentation/pages/detail_page_view_model
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class DetailPage extends ConsumerStatefulWidget {
-  const DetailPage({super.key, required this.movie});
+  const DetailPage({
+    super.key,
+    required this.movie,
+    required this.heroTag,
+  });
   final Movie movie;
+  final String heroTag;
   @override
   ConsumerState<DetailPage> createState() => _DetailPageState();
 }
@@ -22,8 +27,10 @@ class _DetailPageState extends ConsumerState<DetailPage> {
     if (detailPageState.movieDetail == null) {
       return Scaffold(
         appBar: AppBar(),
-        body: const Center(
-          child: CircularProgressIndicator(),
+        body: ListView(
+          children: [
+            Hero(tag: widget.heroTag, child: MainPicture(movie: widget.movie)),
+          ],
         ),
       );
     }
@@ -42,7 +49,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
       appBar: AppBar(),
       body: ListView(
         children: [
-          Hero(tag: 'image', child: MainPicture(movie: widget.movie)),
+          Hero(tag: widget.heroTag, child: MainPicture(movie: widget.movie)),
           const SizedBox(height: 10),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -84,7 +91,7 @@ class _DetailPageState extends ConsumerState<DetailPage> {
             color: Colors.grey,
           ),
           const SizedBox(height: 10),
-          Flexible(child: Text(detailPageState.movieDetail!.overview)),
+          Text(detailPageState.movieDetail!.overview),
           const SizedBox(height: 5),
           Container(
             height: 1,
