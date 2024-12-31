@@ -3,7 +3,6 @@
 //viewmodel 내에서는 provider에 의해 usecase 공급 받을 것
 //usecase마다 1개씩 만들기
 
-import 'package:flutter_movie_view_app/data/data_source/movie_data_source.dart';
 import 'package:flutter_movie_view_app/data/data_source/movie_data_source_impl.dart';
 import 'package:flutter_movie_view_app/data/repository/movie_repository_impl.dart';
 import 'package:flutter_movie_view_app/domain/repository/movie_repository.dart';
@@ -11,6 +10,7 @@ import 'package:flutter_movie_view_app/domain/usecase/fetch_movie_detail_usecase
 import 'package:flutter_movie_view_app/domain/usecase/fetch_now_playing_movies_usecase.dart';
 import 'package:flutter_movie_view_app/domain/usecase/fetch_popular_movies_usecase.dart';
 import 'package:flutter_movie_view_app/domain/usecase/fetch_top_rated_movies_usecase.dart';
+import 'package:flutter_movie_view_app/domain/usecase/fetch_upcoming_movies_usecase.dart';
 import 'package:riverpod/riverpod.dart';
 
 final fetchMovieDetailUseCaseProvider =
@@ -34,8 +34,8 @@ final fetchTopRatedMoviesUseCaseProvider =
 });
 
 final fetchUpcomingMoviesUseCaseProvider =
-    Provider<FetchMovieDetailUseCase>((ref) {
-  return FetchMovieDetailUseCase(ref.read(_movieRepositoryProvider));
+    Provider<FetchUpcomingMoviesUseCase>((ref) {
+  return FetchUpcomingMoviesUseCase(ref.read(_movieRepositoryProvider));
 });
 
 final _movieRepositoryProvider = Provider<MovieRepository>((ref) {
