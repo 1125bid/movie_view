@@ -1,5 +1,4 @@
 //상태 클래스 만들기
-import 'package:flutter_movie_view_app/domain/entity/movie.dart';
 import 'package:flutter_movie_view_app/domain/entity/movie_detail.dart';
 import 'package:flutter_movie_view_app/presentation/providers.dart';
 import 'package:riverpod/riverpod.dart';
@@ -10,9 +9,11 @@ class DetailPageState {
 }
 
 //뷰모델 정의하기
-class DetailPageViewModel extends Notifier<DetailPageState> {
+class DetailPageViewModel
+    extends AutoDisposeFamilyNotifier<DetailPageState, int> {
   @override
-  build() {
+  build(int arg) {
+    fetchMovieDetail(arg);
     return DetailPageState(movieDetail: null);
   }
 
@@ -24,6 +25,6 @@ class DetailPageViewModel extends Notifier<DetailPageState> {
 }
 
 //뷰모델 관리자 만들기
-final detailPageViewModelProvider =
-    NotifierProvider<DetailPageViewModel, DetailPageState>(
+final detailPageViewModelProvider = NotifierProvider.autoDispose
+    .family<DetailPageViewModel, DetailPageState, int>(
         () => DetailPageViewModel());

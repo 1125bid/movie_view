@@ -15,8 +15,6 @@ class _HomePageState extends ConsumerState<HomePage> {
   Widget build(BuildContext context) {
     final homePageState = ref.watch(homePageViewModelProvider);
     final homePageViewModel = ref.read(homePageViewModelProvider.notifier);
-    print(
-        'homePageState.popularMovies[0].posterPath${homePageState.popularMovies[0].posterPath}');
 
     return Scaffold(
       appBar: AppBar(),
@@ -28,7 +26,8 @@ class _HomePageState extends ConsumerState<HomePage> {
             const SizedBox(height: 10),
             GestureDetector(
               onTap: () {
-                Navigator.pushNamed(context, '/detail_page');
+                Navigator.pushNamed(context, '/detail_page',
+                    arguments: homePageState.popularMovies[0]);
               },
               child: Hero(
                 tag: 'image',

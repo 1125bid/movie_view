@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_movie_view_app/domain/entity/movie.dart';
 import 'package:flutter_movie_view_app/presentation/pages/detail_page.dart';
 import 'package:flutter_movie_view_app/presentation/pages/home_page.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,7 +20,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       routes: {
         '/home_page': (context) => const HomePage(),
-        '/detail_page': (context) => DetailPage(),
+        '/detail_page': (context) => DetailPage(
+              movie: ModalRoute.of(context)!.settings.arguments as Movie,
+            ),
       },
       // themeMode: ThemeMode.dark,
       theme: ThemeData(
