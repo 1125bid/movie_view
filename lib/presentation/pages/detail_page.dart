@@ -9,13 +9,7 @@ class DetailPage extends StatelessWidget {
       appBar: AppBar(),
       body: ListView(
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(20),
-            child: Image.network(
-              'https://picsum.photos/seed/picsum/200/300',
-              fit: BoxFit.cover,
-            ),
-          ),
+          Hero(tag: 'image', child: MainPicture()),
           const SizedBox(height: 10),
           const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -39,14 +33,13 @@ class DetailPage extends StatelessWidget {
           const SizedBox(height: 5),
           SizedBox(
             height: 50,
-            child: ListView(
+            child: ListView.separated(
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                return CategoryItem(categories: 'Animation');
+              },
               scrollDirection: Axis.horizontal,
-              children: [
-                CategoryItem(categories: 'Animation'),
-                CategoryItem(categories: 'Adventure'),
-                CategoryItem(categories: 'Family'),
-                CategoryItem(categories: 'Comedy'),
-              ],
+              separatorBuilder: (context, index) => SizedBox(width: 5),
             ),
           ),
           const SizedBox(height: 5),
@@ -68,28 +61,26 @@ class DetailPage extends StatelessWidget {
           const SizedBox(height: 10),
           SizedBox(
             height: 50,
-            child: ListView(
+            child: ListView.separated(
+              itemCount: 6,
+              itemBuilder: (context, index) {
+                return CategoryItem(categories: 'Animation\n300만');
+              },
               scrollDirection: Axis.horizontal,
-              children: [
-                CategoryItem(categories: '6.949 \n 평점'),
-                CategoryItem(categories: '331\n평점투표수'),
-                CategoryItem(categories: '5466.535\n인기점수'),
-                CategoryItem(categories: '150000000\n예산'),
-                CategoryItem(categories: '150000000\n수익'),
-              ],
+              separatorBuilder: (context, index) => SizedBox(width: 5),
             ),
           ),
           const SizedBox(height: 10),
           SizedBox(
             height: 100,
             width: 500,
-            child: ListView(
+            child: ListView.separated(
+              itemCount: 3,
+              itemBuilder: (context, index) {
+                return MakerItem();
+              },
               scrollDirection: Axis.horizontal,
-              children: [
-                MakerItem(),
-                MakerItem(),
-                MakerItem(),
-              ],
+              separatorBuilder: (context, index) => SizedBox(width: 2),
             ),
           )
         ],
@@ -98,6 +89,25 @@ class DetailPage extends StatelessWidget {
   }
 }
 
+/// 최상단 영화 포스터
+class MainPicture extends StatelessWidget {
+  const MainPicture({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(20),
+      child: Image.network(
+        'https://picsum.photos/seed/picsum/200/300',
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+}
+
+///제작사 로고(최하단)
 class MakerItem extends StatelessWidget {
   const MakerItem({
     super.key,
@@ -119,6 +129,7 @@ class MakerItem extends StatelessWidget {
   }
 }
 
+/// 장르 아이템
 class CategoryItem extends StatelessWidget {
   CategoryItem({
     super.key,

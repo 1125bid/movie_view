@@ -17,14 +17,17 @@ class HomePage extends StatelessWidget {
               onTap: () {
                 Navigator.pushNamed(context, '/detail_page');
               },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: SizedBox(
-                  height: 500,
-                  width: double.infinity,
-                  child: Image.network(
-                    'https://picsum.photos/seed/picsum/200/300',
-                    fit: BoxFit.cover,
+              child: Hero(
+                tag: 'image',
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: SizedBox(
+                    height: 500,
+                    width: double.infinity,
+                    child: Image.network(
+                      'https://picsum.photos/seed/picsum/200/300',
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -34,13 +37,13 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 10),
             SizedBox(
               height: 250,
-              child: ListView(
+              child: ListView.separated(
+                itemCount: 3,
+                itemBuilder: (context, index) {
+                  return Item();
+                },
                 scrollDirection: Axis.horizontal,
-                children: const [
-                  Item(),
-                  Item(),
-                  Item(),
-                ],
+                separatorBuilder: (context, index) => const SizedBox(width: 3),
               ),
             ),
             const SizedBox(height: 10),
@@ -48,13 +51,13 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 10),
             SizedBox(
               height: 250,
-              child: ListView(
+              child: ListView.separated(
+                itemCount: 3,
                 scrollDirection: Axis.horizontal,
-                children: [
-                  StackedItem(num: '1'),
-                  StackedItem(num: '2'),
-                  StackedItem(num: '3'),
-                ],
+                itemBuilder: (context, index) {
+                  return StackedItem(num: '${index + 1}');
+                },
+                separatorBuilder: (context, index) => const SizedBox(),
               ),
             ),
             const SizedBox(height: 10),
@@ -62,13 +65,27 @@ class HomePage extends StatelessWidget {
             const SizedBox(height: 10),
             SizedBox(
               height: 250,
-              child: ListView(
+              child: ListView.separated(
+                itemCount: 3,
                 scrollDirection: Axis.horizontal,
-                children: const [
-                  Item(),
-                  Item(),
-                  Item(),
-                ],
+                itemBuilder: (context, index) {
+                  return Item();
+                },
+                separatorBuilder: (context, index) => const SizedBox(width: 3),
+              ),
+            ),
+            const SizedBox(height: 10),
+            const Text('개봉예정'),
+            const SizedBox(height: 10),
+            SizedBox(
+              height: 250,
+              child: ListView.separated(
+                itemCount: 3,
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  return Item();
+                },
+                separatorBuilder: (context, index) => const SizedBox(width: 3),
               ),
             ),
           ],
@@ -78,6 +95,7 @@ class HomePage extends StatelessWidget {
   }
 }
 
+///인기순 아이템
 class StackedItem extends StatelessWidget {
   StackedItem({super.key, required this.num});
   String num;
@@ -115,6 +133,7 @@ class StackedItem extends StatelessWidget {
   }
 }
 
+///현재상영중, 평점 높은순, 개봉예정
 class Item extends StatelessWidget {
   const Item({
     super.key,
