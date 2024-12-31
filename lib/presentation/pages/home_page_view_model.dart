@@ -3,10 +3,10 @@ import 'package:flutter_movie_view_app/presentation/providers.dart';
 import 'package:riverpod/riverpod.dart';
 
 class HomePageState {
-  final List<Movie>? nowPlayingMovies;
-  final List<Movie>? popularMovies;
-  final List<Movie>? topRatedMovies;
-  final List<Movie>? upcomingMovies;
+  final List<Movie> nowPlayingMovies;
+  final List<Movie> popularMovies;
+  final List<Movie> topRatedMovies;
+  final List<Movie> upcomingMovies;
 
   HomePageState({
     required this.nowPlayingMovies,
@@ -19,6 +19,10 @@ class HomePageState {
 class HomePageViewModel extends Notifier<HomePageState> {
   @override
   HomePageState build() {
+    fetchNowPlayingMovies();
+    fetchPopularMovies();
+    fetchTopRatedMovies();
+    fetchUpcomingMovies();
     return HomePageState(
       nowPlayingMovies: [],
       popularMovies: [],
@@ -32,7 +36,7 @@ class HomePageViewModel extends Notifier<HomePageState> {
         ref.read(fetchNowPlayingMoviesUseCaseProvider);
     final result = await fetchNowPlayingMoviesUseCase.fetchNowPlayingMovies();
     state = HomePageState(
-        nowPlayingMovies: result,
+        nowPlayingMovies: result ?? [],
         popularMovies: state.popularMovies,
         topRatedMovies: state.topRatedMovies,
         upcomingMovies: state.upcomingMovies);
@@ -44,7 +48,7 @@ class HomePageViewModel extends Notifier<HomePageState> {
     final result = await fetchPopularMoviesUseCase.fetchPopularMovies();
     state = HomePageState(
         nowPlayingMovies: state.nowPlayingMovies,
-        popularMovies: result,
+        popularMovies: result ?? [],
         topRatedMovies: state.topRatedMovies,
         upcomingMovies: state.upcomingMovies);
   }
@@ -55,8 +59,8 @@ class HomePageViewModel extends Notifier<HomePageState> {
     final result = await fetchTopRatedMoviesUseCase.fetchTopRatedMovies();
     state = HomePageState(
         nowPlayingMovies: state.nowPlayingMovies,
-        popularMovies: result,
-        topRatedMovies: state.topRatedMovies,
+        popularMovies: state.popularMovies,
+        topRatedMovies: result ?? [],
         upcomingMovies: state.upcomingMovies);
   }
 
@@ -66,9 +70,9 @@ class HomePageViewModel extends Notifier<HomePageState> {
     final result = await fetchUpcomingMoviesUseCase.fetchUpcomingMovies();
     state = HomePageState(
         nowPlayingMovies: state.nowPlayingMovies,
-        popularMovies: result,
+        popularMovies: state.popularMovies,
         topRatedMovies: state.topRatedMovies,
-        upcomingMovies: state.upcomingMovies);
+        upcomingMovies: result ?? []);
   }
 }
 

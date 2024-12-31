@@ -17,7 +17,7 @@ class MovieRepositoryImpl implements MovieRepository {
         genres: result.genres.map((e) => e.name).toList(),
         id: id,
         productionCompanyLogos:
-            result.productionCompanies.map((e) => e.logoPath!).toList(),
+            result.productionCompanies.map((e) => e.logoPath).toList(),
         overview: result.overview,
         popularity: result.popularity,
         releaseDate: result.releaseDate,

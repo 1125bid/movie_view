@@ -25,7 +25,7 @@ import 'dart:convert';
 
 class MovieResponseDto {
   final bool adult;
-  final String backdropPath;
+  final String? backdropPath;
   final List<int> genreIds;
   final int id;
   final String originalLanguage;
