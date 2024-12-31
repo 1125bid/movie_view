@@ -16,6 +16,18 @@ class _HomePageState extends ConsumerState<HomePage> {
     final homePageState = ref.watch(homePageViewModelProvider);
     final homePageViewModel = ref.read(homePageViewModelProvider.notifier);
 
+    ///로딩중
+    if (homePageState.nowPlayingMovies.isEmpty ||
+        homePageState.popularMovies.isEmpty ||
+        homePageState.topRatedMovies.isEmpty ||
+        homePageState.upcomingMovies.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(),
+        body: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
     return Scaffold(
       appBar: AppBar(),
       body: Padding(
